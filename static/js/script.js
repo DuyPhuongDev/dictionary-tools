@@ -286,7 +286,8 @@ function showResults(data) {
             <td><strong>${item.word}</strong></td>
             <td>${item.meaning_en}</td>
             <td>${item.meaning_vi}</td>
-            <td>${item.example}</td>
+            <td>${item.example_en}</td>
+            <td>${item.example_vi}</td>
             <td>${item.ipa}</td>
             <td>${item.pos}</td>
         `;
@@ -304,14 +305,15 @@ function downloadResults() {
     }
     
     // Convert to CSV format
-    const headers = ['Word', 'Meaning_EN', 'Meaning_VI', 'Example', 'IPA', 'POS'];
+    const headers = ['Word', 'Meaning_EN', 'Meaning_VI', 'Example_EN', 'Example_VI', 'IPA', 'POS'];
     const csvContent = [
         headers.join(','),
         ...processedData.map(item => [
             `"${item.word}"`,
             `"${item.meaning_en}"`,
             `"${item.meaning_vi}"`,
-            `"${item.example}"`,
+            `"${item.example_en}"`,
+            `"${item.example_vi}"`,
             `"${item.ipa}"`,
             `"${item.pos}"`
         ].join(','))

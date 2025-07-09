@@ -299,15 +299,20 @@ section h3 {
     max-width: 300px;
 }
 
-.results-table td:nth-child(4) {
-    /* Example column */
-    max-width: 400px;
+.results-table td:nth-child(4),
+.results-table td:nth-child(5) {
+    /* Example columns */
+    max-width: 300px;
     font-style: italic;
     color: #4a5568;
 }
 
 .results-table td:nth-child(4)::before {
-    content: "💬 ";
+    content: "🇺🇸 ";
+}
+
+.results-table td:nth-child(5)::before {
+    content: "🇻🇳 ";
 }
 
 .results-table tr:hover {

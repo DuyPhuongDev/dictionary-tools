@@ -32,21 +32,18 @@ class VocabularyService:
                 if dict_data.get('meaning'):
                     meaning_vi = await translation_service.translate_to_vietnamese(dict_data['meaning'])
                 
-                # Translate example to Vietnamese and combine
-                example_combined = ""
+                # Translate example to Vietnamese
+                example_vi = ""
                 if dict_data.get('example'):
                     example_vi = await translation_service.translate_to_vietnamese(dict_data['example'])
-                    if example_vi and example_vi != dict_data.get('example'):
-                        example_combined = f"{dict_data.get('example')} | {example_vi}"
-                    else:
-                        example_combined = dict_data.get('example', '')
                 
                 # Create row data
                 row_data = {
                     'Word': word,
                     'Meaning_EN': dict_data.get('meaning', ''),
                     'Meaning_VI': meaning_vi,
-                    'Example': example_combined,
+                    'Example_EN': dict_data.get('example', ''),
+                    'Example_VI': example_vi,
                     'IPA': dict_data.get('ipa', ''),
                     'POS': dict_data.get('pos', '')
                 }
@@ -63,7 +60,8 @@ class VocabularyService:
                     'Word': word,
                     'Meaning_EN': f'Error: {str(e)}',
                     'Meaning_VI': '',
-                    'Example': '',
+                    'Example_EN': '',
+                    'Example_VI': '',
                     'IPA': '',
                     'POS': ''
                 }

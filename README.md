@@ -7,7 +7,7 @@
 - **Nhập file txt**: Upload file chứa danh sách từ vựng (mỗi từ một dòng)
 - **Lấy dữ liệu từ điển**: Tự động lấy thông tin từ Cambridge Dictionary
 - **Dịch tiếng Việt**: Tự động dịch nghĩa và ví dụ sang tiếng Việt
-- **Xuất CSV**: Tạo file CSV theo định dạng: Word | Meaning_EN | Meaning_VI | Example | IPA | POS
+- **Xuất CSV**: Tạo file CSV theo định dạng: Word | Meaning_EN | Meaning_VI | Example_EN | Example_VI | IPA | POS
 
 ## Cài đặt
 
@@ -90,9 +90,9 @@ language
 
 File CSV sẽ có cấu trúc:
 
-| Word | Meaning_EN | Meaning_VI | Example | IPA | POS |
-|------|------------|------------|---------|-----|-----|
-| hello | used as a greeting | xin chào | Hello, how are you? \| Xin chào, bạn khỏe không? | /həˈloʊ/ | exclamation |
+| Word | Meaning_EN | Meaning_VI | Example_EN | Example_VI | IPA | POS |
+|------|------------|------------|------------|------------|-----|-----|
+| hello | used as a greeting | xin chào | Hello, how are you? | Xin chào, bạn khỏe không? | /həˈloʊ/ | exclamation |
 
 ## Cấu trúc project
 

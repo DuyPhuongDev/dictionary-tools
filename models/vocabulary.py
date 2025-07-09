@@ -8,7 +8,7 @@ class VocabularyItem(BaseModel):
     word: str
     meaning_en: str
     meaning_vi: str
-    example: str
+    example_en: str
     example_vi: str
     ipa: str
     pos: str

@@ -81,20 +81,17 @@ async def process_vocabulary(file: UploadFile = File(...)):
                 # Get dictionary data from Cambridge
                 dict_data = await dictionary_service.get_word_data(word)
                 
-                # Translate example to Vietnamese and combine
-                example_combined = ""
+                # Translate example to Vietnamese
+                vietnamese_example = ""
                 if dict_data.get('example'):
                     vietnamese_example = await translation_service.translate_to_vietnamese(dict_data['example'])
-                    if vietnamese_example and vietnamese_example != dict_data.get('example'):
-                        example_combined = f"{dict_data.get('example')} | {vietnamese_example}"
-                    else:
-                        example_combined = dict_data.get('example', '')
                 
                 processed_word = {
                     "word": word,
                     "meaning_en": dict_data.get('meaning', ''),
                     "meaning_vi": await translation_service.translate_to_vietnamese(dict_data.get('meaning', '')),
-                    "example": example_combined,
+                    "example_en": dict_data.get('example', ''),
+                    "example_vi": vietnamese_example,
                     "ipa": dict_data.get('ipa', ''),
                     "pos": dict_data.get('pos', '')
                 }
@@ -106,7 +103,8 @@ async def process_vocabulary(file: UploadFile = File(...)):
                     "word": word,
                     "meaning_en": f"Error: {str(e)}",
                     "meaning_vi": "",
-                    "example": "",
+                    "example_en": "",
+                    "example_vi": "",
                     "ipa": "",
                     "pos": ""
                 }
