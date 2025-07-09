@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary App - Cambridge Dictionary to CSV</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-book"></i> Vocabulary App</h1>
+            <p class="subtitle">Import vocabulary from TXT files and export enriched data to CSV</p>
+            <p class="subtitle-vi">Nhập danh sách từ vựng từ file TXT và xuất dữ liệu phong phú ra CSV</p>
+        </header>
+
+        <main class="main-content">
+            <!-- File Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Vocabulary File</h3>
+                    <p>Drag and drop your .txt file here or click to browse</p>
+                    <p class="file-info">File should contain one word per line</p>
+                    <input type="file" id="fileInput" accept=".txt" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-folder-open"></i> Choose File
+                    </button>
+                </div>
+                
+                <div class="file-selected" id="fileSelected" style="display: none;">
+                    <div class="file-info-display">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="fileName"></span>
+                        <button class="btn-remove" onclick="removeFile()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processing Options -->
+            <section class="options-section" id="optionsSection" style="display: none;">
+                <h3><i class="fas fa-cogs"></i> Processing Options</h3>
+                <div class="options-grid">
+                    <div class="option-card">
+                        <button class="btn btn-secondary" onclick="previewFile()">
+                            <i class="fas fa-eye"></i>
+                            Preview Words
+                        </button>
+                        <p>View uploaded vocabulary list</p>
+                    </div>
+                    <div class="option-card">
+                        <button class="btn btn-success" onclick="processFile()">
+                            <i class="fas fa-magic"></i>
+                            Process & View Data
+                        </button>
+                        <p>Get definitions and translations</p>
+                    </div>
+                    <div class="option-card">
+                        <button class="btn btn-primary" onclick="exportCSV()">
+                            <i class="fas fa-download"></i>
+                            Export to CSV
+                        </button>
+                        <p>Download enriched vocabulary</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <h3><i class="fas fa-spinner fa-spin"></i> Processing...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">Preparing to process vocabulary...</p>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <h3><i class="fas fa-chart-line"></i> Results</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalWords">0</div>
+                        <div class="stat-label">Total Words</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="processedWords">0</div>
+                        <div class="stat-label">Processed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="errorWords">0</div>
+                        <div class="stat-label">Errors</div>
+                    </div>
+                </div>
+
+                <div class="results-table-container">
+                    <table class="results-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>Word</th>
+                                <th>Meaning (EN)</th>
+                                <th>Meaning (VI)</th>
+                                <th>Example (EN | VI)</th>
+                                <th>IPA</th>
+                                <th>POS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-primary" onclick="downloadResults()">
+                        <i class="fas fa-download"></i> Download CSV
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetApp()">
+                        <i class="fas fa-refresh"></i> Process Another File
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sample Section -->
+            <section class="sample-section">
+                <h3><i class="fas fa-info-circle"></i> Sample Format</h3>
+                <div class="sample-content">
+                    <div class="sample-input">
+                        <h4>Input (TXT file):</h4>
+                        <pre>hello
+world
+computer
+science
+language</pre>
+                    </div>
+                    <div class="sample-output">
+                        <h4>Output (CSV format):</h4>
+                        <div class="sample-table">
+                            <table>
+                                <tr>
+                                    <th>Word</th>
+                                    <th>Meaning_EN</th>
+                                    <th>Meaning_VI</th>
+                                    <th>Example</th>
+                                    <th>IPA</th>
+                                    <th>POS</th>
+                                </tr>
+                                <tr>
+                                    <td>hello</td>
+                                    <td>used as a greeting</td>
+                                    <td>xin chào</td>
+                                    <td>Hello, how are you? | Xin chào, bạn khỏe không?</td>
+                                    <td>/həˈloʊ/</td>
+                                    <td>exclamation</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Vocabulary App. Powered by Cambridge Dictionary & Google Translate</p>
+        </footer>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-message"></span>
+            <button class="notification-close" onclick="hideNotification()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html> 

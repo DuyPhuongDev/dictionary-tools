@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  vocab-app:
+    build: .
+    container_name: vocabulary-app
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DEBUG=True
+      - APP_HOST=0.0.0.0
+      - MAX_FILE_SIZE=10MB
+      - ALLOWED_FILE_TYPES=txt
+      - REQUESTS_PER_MINUTE=30
+    volumes:
+      # Mount for development (optional)
+      - ./static:/app/static
+      - ./templates:/app/templates
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    container_name: vocabulary-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - vocab-app
+    restart: unless-stopped
+    profiles:
+      - production 

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: vocabulary-app
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DEBUG
+        value: false
+      - key: APP_HOST
+        value: 0.0.0.0
+      - key: MAX_FILE_SIZE
+        value: 10MB
+      - key: ALLOWED_FILE_TYPES
+        value: txt
+      - key: REQUESTS_PER_MINUTE
+        value: 30
+    healthCheckPath: /api
+    domains:
+      - vocabulary-app.onrender.com 
